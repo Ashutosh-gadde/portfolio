@@ -62,7 +62,7 @@ function initMap() {
     `;
     document.head.appendChild(labelStyle);
 
-    // Zoomed out slightly and centered to fit Mumbai to Nanded perfectly
+    // Zoomed out slightly and centered to fit Mumbai to Nanded perfectly fit
     const map = L.map('gis-map').setView([18.9, 74.8], 7);
 
     // Premium Light SaaS Base Layer (CartoDB Positron)
