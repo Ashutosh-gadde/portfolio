@@ -1,8 +1,4 @@
-/* ==========================================================================
-   CSS Variables & Theme Setup
-   ========================================================================== */
 :root {
-    /* Color Palette */
     --primary: #0F172A;
     --secondary: #10B981;
     --accent: #38BDF8;
@@ -12,12 +8,8 @@
     --muted: #94A3B8;
     --glass-bg: rgba(17, 24, 39, 0.7);
     --glass-border: rgba(255, 255, 255, 0.08);
-    
-    /* Typography */
     --font-sans: 'Inter', sans-serif;
     --font-heading: 'Poppins', sans-serif;
-    
-    /* Transitions */
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -27,9 +19,7 @@
     box-sizing: border-box;
 }
 
-html {
-    scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
     background-color: var(--background);
@@ -39,9 +29,6 @@ body {
     overflow-x: hidden;
 }
 
-/* ==========================================================================
-   Typography & Utilities
-   ========================================================================== */
 h1, h2, h3, h4 {
     font-family: var(--font-heading);
     font-weight: 600;
@@ -59,107 +46,17 @@ h1, h2, h3, h4 {
     padding: 100px 20px;
 }
 
-.section-header {
-    margin-bottom: 3rem;
-}
-
-.section-header h2 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-}
-
+.section-header { margin-bottom: 3rem; }
+.section-header h2 { font-size: 2.5rem; margin-bottom: 0.5rem; }
 .underline {
     width: 60px;
     height: 4px;
     background: linear-gradient(90deg, var(--secondary), var(--accent));
     border-radius: 2px;
 }
+.subtitle { color: var(--muted); margin-top: 0.5rem; }
 
-.subtitle {
-    color: var(--muted);
-    margin-top: 0.5rem;
-}
-
-/* ==========================================================================
-   Glassmorphism UI Components
-   ========================================================================== */
-/* ==========================================================================
-   Experience Timeline
-   ========================================================================== */
-.experience-wrapper {
-    padding: 2.5rem;
-}
-
-.experience-timeline {
-    position: relative;
-    padding-left: 2rem;
-    border-left: 2px solid var(--glass-border);
-    margin-left: 1rem;
-}
-
-.exp-item {
-    position: relative;
-    margin-bottom: 3rem;
-}
-
-.exp-item:last-child {
-    margin-bottom: 0;
-}
-
-.exp-dot {
-    position: absolute;
-    left: -2.6rem;
-    top: 0;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: var(--background);
-    border: 2px solid var(--accent);
-    box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
-}
-
-.exp-date {
-    color: var(--secondary);
-    font-size: 0.9rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.exp-role {
-    font-size: 1.3rem;
-    color: var(--text);
-    margin-bottom: 0.25rem;
-}
-
-.exp-company {
-    color: var(--muted);
-    font-size: 1rem;
-    margin-bottom: 1rem;
-    font-weight: 500;
-}
-
-.exp-details {
-    list-style-type: none;
-}
-
-.exp-details li {
-    position: relative;
-    padding-left: 1.5rem;
-    margin-bottom: 0.6rem;
-    color: var(--muted);
-    font-size: 0.95rem;
-}
-
-.exp-details li::before {
-    content: "▹";
-    position: absolute;
-    left: 0;
-    color: var(--accent);
-    font-size: 1.2rem;
-    line-height: 1;
-}
+/* Glassmorphism */
 .glass-card {
     background: var(--glass-bg);
     backdrop-filter: blur(12px);
@@ -176,14 +73,8 @@ h1, h2, h3, h4 {
     box-shadow: 0 10px 40px rgba(56, 189, 248, 0.15);
 }
 
-/* Tags */
-.tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 1rem;
-}
-
+/* Tags & Buttons */
+.tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
 .tag {
     background: rgba(16, 185, 129, 0.1);
     color: var(--secondary);
@@ -193,14 +84,12 @@ h1, h2, h3, h4 {
     font-weight: 500;
     border: 1px solid rgba(16, 185, 129, 0.2);
 }
-
 .tags.small .tag {
     background: rgba(56, 189, 248, 0.1);
     color: var(--accent);
     border-color: rgba(56, 189, 248, 0.2);
 }
 
-/* Buttons */
 .btn {
     display: inline-block;
     padding: 12px 28px;
@@ -210,33 +99,28 @@ h1, h2, h3, h4 {
     transition: var(--transition);
     cursor: pointer;
     border: none;
+    text-align: center;
 }
-
 .btn-primary {
     background: linear-gradient(135deg, var(--accent), #2563eb);
     color: #fff;
     box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
 }
-
 .btn-primary:hover {
     box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5);
     transform: translateY(-2px);
 }
-
 .btn-outline {
     background: transparent;
     color: var(--text);
     border: 1px solid var(--glass-border);
 }
-
 .btn-outline:hover {
     border-color: var(--text);
     background: rgba(255, 255, 255, 0.05);
 }
 
-/* ==========================================================================
-   Navigation
-   ========================================================================== */
+/* Navigation */
 .glass-nav {
     position: fixed;
     top: 0;
@@ -250,29 +134,15 @@ h1, h2, h3, h4 {
     border-bottom: 1px solid var(--glass-border);
     z-index: 1000;
 }
-
-.logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-    font-family: var(--font-heading);
-}
-
+.logo { font-size: 1.5rem; font-weight: 700; font-family: var(--font-heading); }
 .logo span { color: var(--accent); }
-
-.nav-links {
-    display: flex;
-    list-style: none;
-    gap: 2rem;
-    align-items: center;
-}
-
+.nav-links { display: flex; list-style: none; gap: 2rem; align-items: center; }
 .nav-links a {
     color: var(--muted);
     text-decoration: none;
     font-weight: 500;
     transition: var(--transition);
 }
-
 .nav-links a:hover { color: var(--text); }
 .btn-primary-small {
     background: var(--accent);
@@ -281,9 +151,7 @@ h1, h2, h3, h4 {
     border-radius: 6px;
 }
 
-/* ==========================================================================
-   Hero Section
-   ========================================================================== */
+/* Hero Section */
 .hero {
     height: 100vh;
     display: flex;
@@ -292,13 +160,9 @@ h1, h2, h3, h4 {
     position: relative;
     padding: 0 20px;
 }
-
 .hero-bg-grid {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 0; left: 0; width: 100%; height: 100%;
     background-image: 
         linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
@@ -306,181 +170,105 @@ h1, h2, h3, h4 {
     z-index: -1;
     animation: gridMove 20s linear infinite;
 }
-
 @keyframes gridMove {
     0% { background-position: 0 0; }
     100% { background-position: 50px 50px; }
 }
-
-.hero-content {
-    text-align: center;
-    max-width: 800px;
-}
-
-.hero h1 {
-    font-size: 4rem;
-    margin-bottom: 1rem;
-}
-
-.hero h2 {
-    font-size: 2rem;
-    color: var(--muted);
-    margin-bottom: 1.5rem;
-    height: 40px; /* Pre-allocate space for typed.js */
-}
-
-.tagline {
-    font-size: 1.1rem;
-    color: var(--muted);
-    margin-bottom: 2rem;
-}
-
-.hero-buttons {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-}
-
+.hero-content { text-align: center; max-width: 800px; z-index: 1; }
+.hero h1 { font-size: 4rem; margin-bottom: 1rem; }
+.hero h2 { font-size: 2rem; color: var(--muted); margin-bottom: 1.5rem; height: 40px; }
+.tagline { font-size: 1.1rem; color: var(--muted); margin-bottom: 2rem; }
+.hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.social-links { display: flex; justify-content: center; gap: 1.5rem; margin-top: 2rem; }
 .social-links a {
     color: var(--muted);
-    font-size: 1.5rem;
-    margin: 0 10px;
+    font-size: 1.8rem;
     transition: var(--transition);
 }
+.social-links a:hover { color: var(--accent); transform: scale(1.1); }
 
-.social-links a:hover {
-    color: var(--accent);
-    transform: scale(1.1);
-}
-
-/* ==========================================================================
-   Grids & Layouts
-   ========================================================================== */
-.about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-}
-
-/* Timeline */
-.timeline {
-    position: relative;
-    padding-left: 20px;
-}
-
+/* Grids & Layouts */
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+.timeline { position: relative; padding-left: 20px; }
 .timeline::before {
-    content: '';
-    position: absolute;
-    left: 20px;
-    top: 20px;
-    bottom: 20px;
-    width: 2px;
-    background: var(--glass-border);
+    content: ''; position: absolute; left: 20px; top: 20px; bottom: 20px; width: 2px; background: var(--glass-border);
 }
-
-.timeline-item {
-    position: relative;
-    padding-left: 30px;
-    margin-bottom: 1.5rem;
-}
-
+.timeline-item { position: relative; padding-left: 30px; margin-bottom: 1.5rem; }
 .timeline-dot {
-    position: absolute;
-    left: -6px;
-    top: 5px;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: var(--card);
-    border: 2px solid var(--muted);
-    z-index: 2;
+    position: absolute; left: -6px; top: 5px; width: 14px; height: 14px;
+    border-radius: 50%; background: var(--card); border: 2px solid var(--muted); z-index: 2;
 }
+.timeline-item.active .timeline-dot { border-color: var(--secondary); background: var(--secondary); box-shadow: 0 0 10px var(--secondary); }
+.timeline-item.future .timeline-dot { border-color: var(--accent); border-style: dashed; }
 
-.timeline-item.active .timeline-dot {
-    border-color: var(--secondary);
-    background: var(--secondary);
-    box-shadow: 0 0 10px var(--secondary);
+/* Experience Timeline */
+.experience-wrapper { padding: 2.5rem; }
+.experience-timeline { position: relative; padding-left: 2rem; border-left: 2px solid var(--glass-border); margin-left: 1rem; }
+.exp-item { position: relative; margin-bottom: 3rem; }
+.exp-item:last-child { margin-bottom: 0; }
+.exp-dot {
+    position: absolute; left: -2.6rem; top: 0; width: 16px; height: 16px;
+    border-radius: 50%; background: var(--background); border: 2px solid var(--accent);
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
 }
+.exp-date { color: var(--secondary); font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; }
+.exp-role { font-size: 1.3rem; color: var(--text); margin-bottom: 0.25rem; }
+.exp-company { color: var(--muted); font-size: 1rem; margin-bottom: 1rem; font-weight: 500; }
+.exp-details { list-style-type: none; }
+.exp-details li { position: relative; padding-left: 1.5rem; margin-bottom: 0.6rem; color: var(--muted); font-size: 0.95rem; }
+.exp-details li::before { content: "▹"; position: absolute; left: 0; color: var(--accent); font-size: 1.2rem; line-height: 1; }
 
-.timeline-item.future .timeline-dot {
-    border-color: var(--accent);
-    border-style: dashed;
-}
-
-/* Skills */
-.skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-}
-
-/* Projects */
-.projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2rem;
-}
-
-.project-image {
-    height: 200px;
-    background-size: cover;
-    background-position: center;
-    border-radius: 16px 16px 0 0;
-    border-bottom: 1px solid var(--glass-border);
-}
-
+/* Skills & Projects */
+.skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+.projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
+.project-image { height: 200px; background-size: cover; background-position: center; border-radius: 16px 16px 0 0; border-bottom: 1px solid var(--glass-border); }
 .mock-img-1 { background: linear-gradient(135deg, #1e3a8a, #0F172A); }
 .mock-img-2 { background: linear-gradient(135deg, #065f46, #0F172A); }
 .mock-img-3 { background: linear-gradient(135deg, #7c2d12, #0F172A); }
-
-.project-content {
-    padding: 1.5rem;
-}
-
+.project-content { padding: 1.5rem; }
 .project-content h3 { margin-bottom: 0.5rem; }
 .project-content p { color: var(--muted); font-size: 0.9rem; margin-top: 0.8rem; }
 
-/* ==========================================================================
-   Map & GitHub & Contact
-   ========================================================================== */
-.map-container {
-    height: 500px;
-    border-radius: 16px;
-    overflow: hidden;
-    padding: 0; /* Override */
-}
-
-#gis-map {
-    height: 100%;
-    width: 100%;
-    z-index: 1; /* Leaflet z-index fix */
-}
-
-.github-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-}
-
-.contact-card {
-    text-align: center;
-    padding: 4rem 2rem;
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.footer {
-    border-top: 1px solid var(--glass-border);
-    padding: 2rem 0;
-    color: var(--muted);
-    font-size: 0.9rem;
-}
-
+/* Map, GitHub & Contact */
+.map-container { height: 500px; border-radius: 16px; overflow: hidden; padding: 0; }
+#gis-map { height: 100%; width: 100%; z-index: 1; }
+.github-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+.contact-card { text-align: center; padding: 4rem 2rem; max-width: 600px; margin: 0 auto; }
+.footer { border-top: 1px solid var(--glass-border); padding: 2rem 0; color: var(--muted); font-size: 0.9rem; }
 .tech-stack-footer { margin-top: 0.5rem; font-size: 0.8rem; }
 
-/* Responsive */
-@media (max-width: 768px) {
+/* ==========================================================================
+   Responsive Design for all resolutions
+   ========================================================================== */
+@media (max-width: 992px) {
     .about-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 3rem; }
+}
+
+@media (max-width: 768px) {
+    .glass-nav { 
+        flex-direction: column; 
+        padding: 15px;
+        gap: 15px;
+    }
+    .nav-links { 
+        flex-wrap: wrap; 
+        justify-content: center; 
+        gap: 1rem;
+    }
     .hero h1 { font-size: 2.5rem; }
-    .nav-links { display: none; } /* Mobile menu logic omitted for brevity */
+    .hero h2 { font-size: 1.5rem; height: 35px; }
+    .container { padding: 80px 20px 40px; }
+    .section-header h2 { font-size: 2rem; }
+    .experience-wrapper { padding: 1.5rem; }
+    .exp-item { padding-left: 10px; }
+    .exp-dot { left: -1.7rem; }
+}
+
+@media (max-width: 480px) {
+    .hero h1 { font-size: 2rem; }
+    .hero h2 { font-size: 1.2rem; }
+    .nav-links a { font-size: 0.9rem; }
+    .btn { width: 100%; text-align: center; }
+    .projects-grid { grid-template-columns: 1fr; }
 }
