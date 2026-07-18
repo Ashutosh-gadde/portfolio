@@ -28,11 +28,12 @@ document.addEventListener('DOMContentLoaded', () => {
 /**
  /**
 /**
- * Initializes the Leaflet map: Spatial Resume & Remote Connection Tool
+ /**
+ * Initializes the Leaflet map: Detailed Spatial Resume & Remote Connection Tool
  */
 function initMap() {
-    // 1. Initialize Map centered on Marathwada region to show your trajectory
-    const map = L.map('gis-map').setView([19.0, 76.9], 8);
+    // 1. Initialize Map centered on the Marathwada/Solapur region
+    const map = L.map('gis-map').setView([18.7, 76.5], 8);
 
     // 2. Add Premium Dark SaaS Base Layer
     const darkTileLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
@@ -41,29 +42,41 @@ function initMap() {
         maxZoom: 20
     }).addTo(map);
 
-    // 3. Define Your Career Journey Data
+    // 3. Define Your Exact Career Journey Data
     const careerMilestones = [
         { 
-            name: "Latur", 
-            coords: [18.4088, 76.5604], 
-            title: "Education & Foundations", 
-            desc: "B.E. Civil Engineering & PG Diploma in Geoinformatics." 
+            name: "1. B.E. Civil Engineering", 
+            coords: [18.4088, 76.5604], // Latur
+            title: "VDF School of Engineering, Latur", 
+            desc: "Completed foundational civil engineering degree in my hometown." 
         },
         { 
-            name: "Aundha Nagnath", 
-            coords: [19.5350, 77.0420], 
-            title: "First Onsite Role", 
-            desc: "GIS Engineer at Flyview. Drone surveys & field validation." 
+            name: "2. PGDM Geoinformatics", 
+            coords: [17.6599, 75.9064], // Solapur
+            title: "Geopixel Solutions, Solapur", 
+            desc: "Specialized post-graduate training in GIS and Geoinformatics." 
         },
         { 
-            name: "Nanded", 
-            coords: [19.1528, 77.3039], 
-            title: "Current HQ", 
-            desc: "GIS Technical Expert at JMK Infosoft. (Also mastered remote work with Genesys here)." 
+            name: "3. GIS Engineer (Jun 2021 – Apr 2022)", 
+            coords: [19.5350, 77.0420], // Aundha Nagnath
+            title: "Flyview GIS Technology Pvt. Ltd.", 
+            desc: "First onsite job. Executed drone mapping and land survey validation in Aundha Nagnath." 
+        },
+        { 
+            name: "4. GIS Executive (Apr 2022 – Apr 2024)", 
+            coords: [18.4300, 76.5800], // Latur (Slight offset so it doesn't hide the BE pin)
+            title: "Genesys International Corporation", 
+            desc: "Successfully executed WFH operations from my hometown, Latur. Managed PostGIS databases and satellite imagery." 
+        },
+        { 
+            name: "5. GIS Expert (Apr 2024 – Present)", 
+            coords: [19.1528, 77.3039], // Nanded
+            title: "JMK Infosoft Solutions Ltd", 
+            desc: "Current onsite role. Managing district GIS cell operations under the Land Records Dept in Nanded." 
         }
     ];
 
-    // 4. Draw the "Flight Path" of your career
+    // 4. Draw the "Flight Path" of your career in chronological order
     const pathCoords = careerMilestones.map(m => m.coords);
     L.polyline(pathCoords, {
         color: '#38BDF8', // Accent blue
@@ -75,20 +88,21 @@ function initMap() {
     // 5. Plot the milestone markers
     careerMilestones.forEach((m, index) => {
         const isCurrent = index === careerMilestones.length - 1;
-        const color = isCurrent ? '#10B981' : '#38BDF8'; // Green for current, Blue for past
+        const color = isCurrent ? '#10B981' : '#38BDF8'; // Green for current role, Blue for past
         
         const icon = L.divIcon({
             className: 'custom-div-icon',
-            html: `<div style='background-color:${color}; width:15px; height:15px; border-radius:50%; border:2px solid white; box-shadow: 0 0 12px ${color};'></div>`,
+            html: `<div style='background-color:${color}; width:15px; height:15px; border-radius:50%; border:2px solid white; box-shadow: 0 0 12px ${color}; display:flex; justify-content:center; align-items:center; color:white; font-size:10px; font-weight:bold;'></div>`,
             iconSize: [15, 15],
             iconAnchor: [7, 7]
         });
 
         L.marker(m.coords, { icon: icon }).addTo(map)
             .bindPopup(`
-                <div style="text-align: center;">
+                <div style="text-align: center; max-width: 200px;">
                     <b style="color:#0F172A; font-size: 14px;">${m.name}</b><br>
                     <span style="color:#38BDF8; font-weight: bold; font-size: 12px;">${m.title}</span><br>
+                    <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 8px 0;">
                     <span style="color:#64748B; font-size: 11px;">${m.desc}</span>
                 </div>
             `);
@@ -101,7 +115,6 @@ function initMap() {
         const btn = L.DomUtil.create('button', 'remote-btn');
         btn.innerHTML = '📍 Recruiter? Find our distance';
         
-        // Inline styling for the premium button
         btn.style.cssText = `
             background: linear-gradient(135deg, #10B981, #059669);
             color: white; border: none; padding: 12px 18px; 
@@ -113,7 +126,6 @@ function initMap() {
         btn.onmouseover = () => btn.style.transform = 'translateY(-2px)';
         btn.onmouseout = () => btn.style.transform = 'translateY(0)';
 
-        // Geolocation Logic
         btn.onclick = function() {
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Locating...';
             
@@ -122,20 +134,17 @@ function initMap() {
                     btn.innerHTML = '📍 Recruiter? Find our distance';
                     
                     const userLatLng = L.latLng(pos.coords.latitude, pos.coords.longitude);
-                    const nandedLatLng = L.latLng(19.1528, 77.3039);
+                    const currentRoleLatLng = L.latLng(19.1528, 77.3039); // Nanded
                     
-                    // Calculate distance in km using Leaflet's built-in spatial math
-                    const distanceKm = (nandedLatLng.distanceTo(userLatLng) / 1000).toLocaleString(undefined, { maximumFractionDigits: 1 });
+                    const distanceKm = (currentRoleLatLng.distanceTo(userLatLng) / 1000).toLocaleString(undefined, { maximumFractionDigits: 1 });
 
-                    // Draw the connection line
-                    L.polyline([nandedLatLng, userLatLng], {
-                        color: '#10B981', // Green connection
+                    L.polyline([currentRoleLatLng, userLatLng], {
+                        color: '#10B981', 
                         weight: 3,
                         dashArray: '10, 10',
                         opacity: 0.8
                     }).addTo(map);
 
-                    // Drop a pin at the recruiter's location
                     const userIcon = L.divIcon({
                         className: 'custom-div-icon',
                         html: `<div style='background-color:#F59E0B; width:18px; height:18px; border-radius:50%; border:2px solid white; box-shadow: 0 0 15px #F59E0B;'></div>`,
@@ -145,7 +154,7 @@ function initMap() {
 
                     L.marker(userLatLng, {icon: userIcon}).addTo(map)
                         .bindPopup(`
-                            <div style="text-align: center; padding: 5px;">
+                            <div style="text-align: center; padding: 5px; max-width: 220px;">
                                 <b style="color:#0F172A; font-size: 15px;">You are here!</b><br>
                                 <span style="color:#64748B;">We are exactly <b>${distanceKm} km</b> apart.</span><br>
                                 <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 8px 0;">
@@ -154,8 +163,7 @@ function initMap() {
                         `)
                         .openPopup();
 
-                    // Smoothly animate the map to show both locations
-                    map.flyToBounds(L.latLngBounds([nandedLatLng, userLatLng]), { 
+                    map.flyToBounds(L.latLngBounds([currentRoleLatLng, userLatLng]), { 
                         padding: [50, 50],
                         duration: 2.5 
                     });
@@ -163,7 +171,7 @@ function initMap() {
                 (err) => {
                     console.warn("Geolocation failed or denied:", err);
                     btn.innerHTML = 'Location Access Denied';
-                    btn.style.background = '#EF4444'; // Red error state
+                    btn.style.background = '#EF4444'; 
                     setTimeout(() => {
                         btn.innerHTML = '📍 Recruiter? Find our distance';
                         btn.style.background = 'linear-gradient(135deg, #10B981, #059669)';
@@ -175,7 +183,6 @@ function initMap() {
     };
     remoteControl.addTo(map);
 }
-/**
  * Fetches recent public repositories from GitHub API.
  */
 async function fetchGitHubRepos(username) {
