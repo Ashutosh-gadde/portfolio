@@ -27,86 +27,154 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /**
  /**
- * Initializes the Leaflet map with Advanced Web GIS Capabilities
+/**
+ * Initializes the Leaflet map: Spatial Resume & Remote Connection Tool
  */
 function initMap() {
-    // 1. Initialize Map
-    const map = L.map('gis-map').setView([18.4088, 76.5604], 12);
+    // 1. Initialize Map centered on Marathwada region to show your trajectory
+    const map = L.map('gis-map').setView([19.0, 76.9], 8);
 
-    // 2. Base Layers
+    // 2. Add Premium Dark SaaS Base Layer
     const darkTileLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-        attribution: '© OSM contributors',
+        attribution: '&copy; OSM contributors',
         subdomains: 'abcd',
         maxZoom: 20
     }).addTo(map);
 
-    const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-        attribution: 'Tiles © Esri'
-    });
-
-    // 3. Add Scale Bar
-    L.control.scale({ position: 'bottomleft', metric: true, imperial: false }).addTo(map);
-
-    // 4. Mock GeoJSON Data (Simulating a Land Record/Survey Boundary)
-    const mockProjectBoundary = {
-        "type": "FeatureCollection",
-        "features": [{
-            "type": "Feature",
-            "properties": { "name": "Latur Cadastral Survey Zone", "status": "Digitization Complete" },
-            "geometry": {
-                "type": "Polygon",
-                "coordinates": [[[76.51, 18.44], [76.60, 18.44], [76.60, 18.37], [76.51, 18.37], [76.51, 18.44]]]
-            }
-        }]
-    };
-
-    // Render GeoJSON with styling and popups
-    const boundaryLayer = L.geoJSON(mockProjectBoundary, {
-        style: { color: '#10B981', weight: 2, fillOpacity: 0.1, dashArray: '5, 5' },
-        onEachFeature: function (feature, layer) {
-            layer.bindPopup(`
-                ${feature.properties.name}
-                Status: ${feature.properties.status}
-            `);
+    // 3. Define Your Career Journey Data
+    const careerMilestones = [
+        { 
+            name: "Latur", 
+            coords: [18.4088, 76.5604], 
+            title: "Education & Foundations", 
+            desc: "B.E. Civil Engineering & PG Diploma in Geoinformatics." 
+        },
+        { 
+            name: "Aundha Nagnath", 
+            coords: [19.5350, 77.0420], 
+            title: "First Onsite Role", 
+            desc: "GIS Engineer at Flyview. Drone surveys & field validation." 
+        },
+        { 
+            name: "Nanded", 
+            coords: [19.1528, 77.3039], 
+            title: "Current HQ", 
+            desc: "GIS Technical Expert at JMK Infosoft. (Also mastered remote work with Genesys here)." 
         }
+    ];
+
+    // 4. Draw the "Flight Path" of your career
+    const pathCoords = careerMilestones.map(m => m.coords);
+    L.polyline(pathCoords, {
+        color: '#38BDF8', // Accent blue
+        weight: 3,
+        dashArray: '5, 10',
+        opacity: 0.7
     }).addTo(map);
 
-    // 5. Initialize Drawing Tools (Leaflet.draw)
-    const drawnItems = new L.FeatureGroup();
-    map.addLayer(drawnItems);
+    // 5. Plot the milestone markers
+    careerMilestones.forEach((m, index) => {
+        const isCurrent = index === careerMilestones.length - 1;
+        const color = isCurrent ? '#10B981' : '#38BDF8'; // Green for current, Blue for past
+        
+        const icon = L.divIcon({
+            className: 'custom-div-icon',
+            html: `<div style='background-color:${color}; width:15px; height:15px; border-radius:50%; border:2px solid white; box-shadow: 0 0 12px ${color};'></div>`,
+            iconSize: [15, 15],
+            iconAnchor: [7, 7]
+        });
+
+        L.marker(m.coords, { icon: icon }).addTo(map)
+            .bindPopup(`
+                <div style="text-align: center;">
+                    <b style="color:#0F172A; font-size: 14px;">${m.name}</b><br>
+                    <span style="color:#38BDF8; font-weight: bold; font-size: 12px;">${m.title}</span><br>
+                    <span style="color:#64748B; font-size: 11px;">${m.desc}</span>
+                </div>
+            `);
+    });
+
+    // 6. Build the "Remote-Ready" Recruiter Connection Button
+    const remoteControl = L.control({ position: 'topright' });
     
-    const drawControl = new L.Control.Draw({
-        edit: { featureGroup: drawnItems },
-        draw: {
-            polygon: { shapeOptions: { color: '#38BDF8' } },
-            polyline: { shapeOptions: { color: '#38BDF8' } },
-            rectangle: true,
-            circle: false,
-            circlemarker: false,
-            marker: true
-        }
-    });
-    map.addControl(drawControl);
+    remoteControl.onAdd = function() {
+        const btn = L.DomUtil.create('button', 'remote-btn');
+        btn.innerHTML = '📍 Recruiter? Find our distance';
+        
+        // Inline styling for the premium button
+        btn.style.cssText = `
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white; border: none; padding: 12px 18px; 
+            border-radius: 8px; font-weight: 600; cursor: pointer; 
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); 
+            font-family: 'Inter', sans-serif; transition: all 0.3s ease;
+        `;
 
-    // Handle drawn shapes
-    map.on(L.Draw.Event.CREATED, function (event) {
-        const layer = event.layer;
-        drawnItems.addLayer(layer);
-    });
+        btn.onmouseover = () => btn.style.transform = 'translateY(-2px)';
+        btn.onmouseout = () => btn.style.transform = 'translateY(0)';
 
-    // 6. Layer Control Panel
-    const baseMaps = {
-        "Dark UI (Default)": darkTileLayer,
-        "Satellite Imagery": satelliteLayer
+        // Geolocation Logic
+        btn.onclick = function() {
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Locating...';
+            
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    btn.innerHTML = '📍 Recruiter? Find our distance';
+                    
+                    const userLatLng = L.latLng(pos.coords.latitude, pos.coords.longitude);
+                    const nandedLatLng = L.latLng(19.1528, 77.3039);
+                    
+                    // Calculate distance in km using Leaflet's built-in spatial math
+                    const distanceKm = (nandedLatLng.distanceTo(userLatLng) / 1000).toLocaleString(undefined, { maximumFractionDigits: 1 });
+
+                    // Draw the connection line
+                    L.polyline([nandedLatLng, userLatLng], {
+                        color: '#10B981', // Green connection
+                        weight: 3,
+                        dashArray: '10, 10',
+                        opacity: 0.8
+                    }).addTo(map);
+
+                    // Drop a pin at the recruiter's location
+                    const userIcon = L.divIcon({
+                        className: 'custom-div-icon',
+                        html: `<div style='background-color:#F59E0B; width:18px; height:18px; border-radius:50%; border:2px solid white; box-shadow: 0 0 15px #F59E0B;'></div>`,
+                        iconSize: [18, 18],
+                        iconAnchor: [9, 9]
+                    });
+
+                    L.marker(userLatLng, {icon: userIcon}).addTo(map)
+                        .bindPopup(`
+                            <div style="text-align: center; padding: 5px;">
+                                <b style="color:#0F172A; font-size: 15px;">You are here!</b><br>
+                                <span style="color:#64748B;">We are exactly <b>${distanceKm} km</b> apart.</span><br>
+                                <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 8px 0;">
+                                <span style="color:#10B981; font-weight:bold;">Proven Remote Track Record. Ready to Collaborate!</span>
+                            </div>
+                        `)
+                        .openPopup();
+
+                    // Smoothly animate the map to show both locations
+                    map.flyToBounds(L.latLngBounds([nandedLatLng, userLatLng]), { 
+                        padding: [50, 50],
+                        duration: 2.5 
+                    });
+                },
+                (err) => {
+                    console.warn("Geolocation failed or denied:", err);
+                    btn.innerHTML = 'Location Access Denied';
+                    btn.style.background = '#EF4444'; // Red error state
+                    setTimeout(() => {
+                        btn.innerHTML = '📍 Recruiter? Find our distance';
+                        btn.style.background = 'linear-gradient(135deg, #10B981, #059669)';
+                    }, 3000);
+                }
+            );
+        };
+        return btn;
     };
-    const overlayMaps = {
-        "Survey Boundaries": boundaryLayer,
-        "User Drawn Shapes": drawnItems
-    };
-
-    L.control.layers(baseMaps, overlayMaps, { position: 'topright' }).addTo(map);
+    remoteControl.addTo(map);
 }
-
 /**
  * Fetches recent public repositories from GitHub API.
  */
