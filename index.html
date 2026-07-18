@@ -4,27 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ashutosh Gadde | GIS Expert & Automation Engineer</title>
-    <meta name="description" content="Portfolio of Ashutosh Gadde, a GIS Expert specializing in Python Automation, Web GIS, and Spatial Analysis.">
     
-    <!-- Fonts: Inter & Poppins -->
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
-    
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    
-    <!-- AOS Animation CSS -->
+    <!-- AOS Animation -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <!-- Navbar -->
     <nav class="glass-nav">
-        <!-- <div class="logo">AG<span>.gis</span></div>--> <!--Add Logo -->
+        <div class="logo">AG<span>.gis</span></div>
         <ul class="nav-links">
             <li><a href="#about">About</a></li>
             <li><a href="#experience">Experience</a></li>
@@ -42,22 +37,24 @@
         <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
             <h1>Hi, I'm <span class="highlight">Ashutosh Gadde</span></h1>
             <h2 class="typed-text-container">I am a <span id="typed-roles"></span></h2>
-            <p class="tagline">Turning Spatial Data into Intelligent Solutions through GIS, Automation, and Web Technologies. (5+ Years Experience)</p>
+            <p class="tagline">Turning Spatial Data into Intelligent Solutions through GIS, Automation, and Web Technologies. (3+ Years Experience)</p>
             
             <div class="hero-buttons">
                 <a href="#projects" class="btn btn-primary">View Portfolio</a>
-                <a href="assets/resume.pdf" target="_blank" class="btn btn-outline">Download Resume</a>
+                <!-- Resume Fix: Ensure your PDF is named "resume.pdf" and is in the same folder as this HTML file -->
+                <a href="resume.pdf" target="_blank" class="btn btn-outline">Download Resume</a>
             </div>
             
+            <!-- Fixed Social Links -->
             <div class="social-links mt-4">
-                <a href="https://github.com/Ashutosh-gadde" target="_blank"><i class="fab fa-github"></i></a>
-                <a href="www.linkedin.com/in/ashutosh-gadde" target="_blank"><i class="fab fa-linkedin"></i></a>
-                <a href="mailto:contact@example.com"><i class="fas fa-envelope"></i></a>
+                <a href="https://github.com/Ashutosh-gadde" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/ashutosh-gadde" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="mailto:ashitoshgadde@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
             </div>
         </div>
     </header>
 
-    <!-- About & Timeline Section -->
+    <!-- About Section -->
     <section id="about" class="container">
         <div class="section-header" data-aos="fade-right">
             <h2>About & Trajectory</h2>
@@ -67,7 +64,7 @@
         <div class="about-grid">
             <div class="glass-card p-6" data-aos="fade-up">
                 <h3>Professional Summary</h3>
-                <p>I am a GIS Expert bridging the gap between traditional spatial analysis and modern web technologies. My focus is on automating redundant GIS workflows using Python and building interactive, data-driven web maps using GeoServer, PostGIS, and OpenLayers.</p>
+                <p>GIS Technical Expert with 3+ years of experience in cadastral mapping, land records digitization, and geospatial data management. Experienced in government GIS projects including Swamitva and E-Pik Pahani. Skilled in ArcGIS, QGIS, drone mapping, and building interactive web maps using GeoServer, PostGIS, and Leaflet.</p>
                 <div class="current-focus mt-4">
                     <h4>Current Learning Focus</h4>
                     <div class="tags">
@@ -78,7 +75,29 @@
                     </div>
                 </div>
             </div>
-            <!-- Experience Section -->
+
+            <div class="timeline glass-card p-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h4>B.E. Civil Engineering</h4>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h4>PG Diploma in Geoinformatics</h4>
+                </div>
+                <div class="timeline-item active">
+                    <div class="timeline-dot"></div>
+                    <h4>GIS Technical Expert</h4>
+                </div>
+                <div class="timeline-item future">
+                    <div class="timeline-dot"></div>
+                    <h4>Future Goal: GIS Solution Architect</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
     <section id="experience" class="container">
         <div class="section-header" data-aos="fade-right">
             <h2>Professional Experience</h2>
@@ -86,32 +105,7 @@
         </div>
         <div class="experience-wrapper glass-card p-6" data-aos="fade-up">
             <div id="experience-container" class="experience-timeline">
-                <!-- Experience items will be injected here via script.js -->
-            </div>
-        </div>
-    </section>
-
-            <div class="timeline glass-card p-6" data-aos="fade-up" data-aos-delay="200">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <h4>Civil Engineering</h4>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <h4>PG Diploma in Geoinformatics</h4>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <h4>GIS Analyst</h4>
-                </div>
-                <div class="timeline-item active">
-                    <div class="timeline-dot"></div>
-                    <h4>Python Automation</h4>
-                </div>
-                <div class="timeline-item future">
-                    <div class="timeline-dot"></div>
-                    <h4>Future Goal: GIS Solution Architect</h4>
-                </div>
+                <!-- Experience injected via script.js -->
             </div>
         </div>
     </section>
@@ -123,18 +117,16 @@
             <div class="underline"></div>
         </div>
         <div class="skills-grid">
-            <!-- GIS Skills -->
             <div class="skill-category glass-card p-6" data-aos="zoom-in">
                 <i class="fas fa-globe-americas accent-icon"></i>
                 <h3>GIS Platforms</h3>
                 <div class="tags">
-                    <span class="tag">ArcGIS Pro</span>
-                    <span class="tag">ArcMap</span>
+                    <span class="tag">ArcGIS</span>
                     <span class="tag">QGIS</span>
-                    <span class="tag">Google Earth Pro</span>
+                    <span class="tag">Drone Mapping</span>
+                    <span class="tag">Google Earth</span>
                 </div>
             </div>
-            <!-- Programming -->
             <div class="skill-category glass-card p-6" data-aos="zoom-in" data-aos-delay="100">
                 <i class="fas fa-code accent-icon"></i>
                 <h3>Programming</h3>
@@ -145,25 +137,23 @@
                     <span class="tag">GeoPandas</span>
                 </div>
             </div>
-            <!-- Web GIS -->
             <div class="skill-category glass-card p-6" data-aos="zoom-in" data-aos-delay="200">
                 <i class="fas fa-laptop-code accent-icon"></i>
                 <h3>Web Tech</h3>
                 <div class="tags">
-                    <span class="tag">JavaScript ES6</span>
+                    <span class="tag">JavaScript</span>
                     <span class="tag">Leaflet</span>
                     <span class="tag">OpenLayers</span>
                     <span class="tag">GeoServer</span>
                 </div>
             </div>
-            <!-- Database -->
             <div class="skill-category glass-card p-6" data-aos="zoom-in" data-aos-delay="300">
                 <i class="fas fa-database accent-icon"></i>
                 <h3>Database & CAD</h3>
                 <div class="tags">
                     <span class="tag">PostGIS</span>
                     <span class="tag">PostgreSQL</span>
-                    <span class="tag">AutoCAD (DXF/DWG)</span>
+                    <span class="tag">AutoCAD</span>
                 </div>
             </div>
         </div>
@@ -176,7 +166,6 @@
             <div class="underline"></div>
         </div>
         <div class="projects-grid">
-            <!-- Project 1 -->
             <div class="project-card glass-card" data-aos="fade-up">
                 <div class="project-image mock-img-1"></div>
                 <div class="project-content">
@@ -186,7 +175,6 @@
                     <p><strong>Impact:</strong> Automated pipeline reduced manual extraction work by 90%.</p>
                 </div>
             </div>
-            <!-- Project 2 -->
             <div class="project-card glass-card" data-aos="fade-up" data-aos-delay="100">
                 <div class="project-image mock-img-2"></div>
                 <div class="project-content">
@@ -196,7 +184,6 @@
                     <p><strong>Impact:</strong> Deployed a full-stack spatial web app for rapid parcel queries.</p>
                 </div>
             </div>
-            <!-- Project 3 -->
             <div class="project-card glass-card" data-aos="fade-up" data-aos-delay="200">
                 <div class="project-image mock-img-3"></div>
                 <div class="project-content">
@@ -241,7 +228,13 @@
                 <p><i class="fas fa-phone accent-icon"></i> 7066397044</p>
                 <p><i class="fas fa-map-marker-alt accent-icon"></i> Latur, Maharashtra, India</p>
             </div>
-            <a href="mailto:contact@example.com" class="btn btn-primary mt-4">Send a Message</a>
+            <div class="social-links mt-4">
+                <a href="https://github.com/Ashutosh-gadde" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/ashutosh-gadde" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="mailto:ashitoshgadde@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+            </div>
+            <!-- Resume Fix -->
+            <a href="resume.pdf" target="_blank" class="btn btn-primary mt-4">Download Resume</a>
         </div>
     </section>
 
