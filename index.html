@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ashutosh Gadde | GIS Expert & Automation Engineer</title>
+    <title>Ashutosh Gadde | GIS Technical Expert & Automation Engineer</title>
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
@@ -35,17 +35,24 @@
     <header id="home" class="hero">
         <div class="hero-bg-grid"></div>
         <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
+            
+            <!-- Professional Photo Container -->
+            <div class="profile-img-container">
+                <!-- Upload your photo as "profile.jpg" in the root folder -->
+                <img src="profile.jpg" alt="Ashutosh Gadde" class="profile-img" onerror="this.src='https://via.placeholder.com/180/0F172A/38BDF8?text=AG'">
+            </div>
+
             <h1>Hi, I'm <span class="highlight">Ashutosh Gadde</span></h1>
             <h2 class="typed-text-container">I am a <span id="typed-roles"></span></h2>
             <p class="tagline">Turning Spatial Data into Intelligent Solutions through GIS, Automation, and Web Technologies. (3+ Years Experience)</p>
             
             <div class="hero-buttons">
                 <a href="#projects" class="btn btn-primary">View Portfolio</a>
-                <!-- Resume Fix: Ensure your PDF is named "resume.pdf" and is in the same folder as this HTML file -->
+                <!-- Strict lowercase link: Must name your file resume.pdf in repo root -->
                 <a href="resume.pdf" target="_blank" class="btn btn-outline">Download Resume</a>
             </div>
             
-            <!-- Fixed Social Links -->
+            <!-- Fixed Social Links with strict HTTPS protocol -->
             <div class="social-links mt-4">
                 <a href="https://github.com/Ashutosh-gadde" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
                 <a href="https://www.linkedin.com/in/ashutosh-gadde" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
@@ -97,15 +104,58 @@
         </div>
     </section>
 
-    <!-- Experience Section -->
+    <!-- Bulletproof Hardcoded Experience Section -->
     <section id="experience" class="container">
         <div class="section-header" data-aos="fade-right">
             <h2>Professional Experience</h2>
             <div class="underline"></div>
         </div>
+        
         <div class="experience-wrapper glass-card p-6" data-aos="fade-up">
-            <div id="experience-container" class="experience-timeline">
-                <!-- Experience injected via script.js -->
+            <div class="experience-timeline">
+                
+                <!-- Company 1: JMK Infosoft -->
+                <div class="exp-item" data-aos="fade-left">
+                    <div class="exp-dot"></div>
+                    <div class="exp-date">Apr 2024 - Present</div>
+                    <h3 class="exp-role">GIS Expert</h3>
+                    <div class="exp-company">JMK Infosoft Solutions Ltd</div>
+                    <ul class="exp-details">
+                        <li>Managed district GIS cell operations under Land Records Department</li>
+                        <li>Executed cadastral mapping and geo-referencing of land parcels</li>
+                        <li>Delivered ROR maps aligned with government standards</li>
+                        <li>Worked on Swamitva & E-Pik Pahani projects</li>
+                        <li>Integrated GIS data into official portals</li>
+                    </ul>
+                </div>
+
+                <!-- Company 2: Genesys International -->
+                <div class="exp-item" data-aos="fade-left" data-aos-delay="100">
+                    <div class="exp-dot"></div>
+                    <div class="exp-date">Apr 2022 - Apr 2024</div>
+                    <h3 class="exp-role">GIS Executive</h3>
+                    <div class="exp-company">Genesys International Corporation</div>
+                    <ul class="exp-details">
+                        <li>Processed satellite imagery and street-view datasets</li>
+                        <li>Created navigation datasets and Points of Interest (POIs)</li>
+                        <li>Maintained PostGIS databases and spatial queries</li>
+                        <li>Ensured high-quality GIS data delivery and quality control</li>
+                    </ul>
+                </div>
+
+                <!-- Company 3: Flyview GIS -->
+                <div class="exp-item" data-aos="fade-left" data-aos-delay="200">
+                    <div class="exp-dot"></div>
+                    <div class="exp-date">Jun 2021 - Apr 2022</div>
+                    <h3 class="exp-role">GIS Engineer</h3>
+                    <div class="exp-company">Flyview GIS Technology Pvt. Ltd.</div>
+                    <ul class="exp-details">
+                        <li>Processed drone survey data and created orthomosaics & maps</li>
+                        <li>Prepared geodatabases for land record departments</li>
+                        <li>Conducted land survey validation and updates</li>
+                    </ul>
+                </div>
+
             </div>
         </div>
     </section>
@@ -201,7 +251,7 @@
         <div class="section-header" data-aos="fade-right">
             <h2>Interactive Web GIS</h2>
             <div class="underline"></div>
-            <p class="subtitle">A custom Leaflet implementation demonstrating mapping capabilities.</p>
+            <p class="subtitle">A custom Leaflet implementation demonstrating spatial mapping capabilities.</p>
         </div>
         <div class="map-container glass-card" data-aos="zoom-in">
             <div id="gis-map"></div>
@@ -233,7 +283,6 @@
                 <a href="https://www.linkedin.com/in/ashutosh-gadde" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
                 <a href="mailto:ashitoshgadde@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
             </div>
-            <!-- Resume Fix -->
             <a href="resume.pdf" target="_blank" class="btn btn-primary mt-4">Download Resume</a>
         </div>
     </section>
