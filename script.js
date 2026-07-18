@@ -101,14 +101,14 @@ function initMap() {
             coords: [19.529032163204626, 77.03963109522947], 
             title: "Flyview GIS Technology Pvt. Ltd.- Land Records Dept, Hingoli", 
             desc: "First onsite job executing drone mapping in Aundha Nagnath.",
-            labelDir: "left", // Pushed left so it doesn't overlap Nanded
+            labelDir: "left", 
             labelOffset: [-15, 0]
         },
         { 
             name: "4. GIS Executive", 
             shortLabel: "GIS Executive",
             iconClass: "fa-laptop-house",
-            coords: [19.127177256693525, 72.87552424612734], // Mumbai Coordinates!
+            coords: [19.127177256693525, 72.87552424612734], 
             title: "Genesys International Corporation", 
             desc: "Successfully executed WFH operations collaborating with the Mumbai headquarters. Managed PostGIS databases and imagery.",
             labelDir: "right",
@@ -127,7 +127,8 @@ function initMap() {
     ];
 
     // Fetch real road networks using OSRM API
-    const osrmCoords = careerMilestones.map(m => `${m.coords[1]},${m.coords[0]}`).join(';');
+    // FIX: Added .toFixed(5) to prevent OSRM from rejecting long decimal coordinates
+    const osrmCoords = careerMilestones.map(m => `${Number(m.coords[1]).toFixed(5)},${Number(m.coords[0]).toFixed(5)}`).join(';');
     const osrmUrl = `https://router.project-osrm.org/route/v1/driving/${osrmCoords}?geometries=geojson&overview=full`;
 
     fetch(osrmUrl)
@@ -207,7 +208,7 @@ function initMap() {
                 (pos) => {
                     btn.innerHTML = '📍 Recruiter? Find our distance';
                     const userLatLng = L.latLng(pos.coords.latitude, pos.coords.longitude);
-                    const currentRoleLatLng = L.latLng(19.1528, 77.3039); 
+                    const currentRoleLatLng = L.latLng(19.154836, 77.313156); 
                     
                     const distanceKm = (currentRoleLatLng.distanceTo(userLatLng) / 1000).toLocaleString(undefined, { maximumFractionDigits: 1 });
 
