@@ -73,6 +73,31 @@ h1, h2, h3, h4 {
     box-shadow: 0 10px 40px rgba(56, 189, 248, 0.15);
 }
 
+/* Profile Image Glowing Container */
+.profile-img-container {
+    position: relative;
+    width: 160px;
+    height: 160px;
+    margin: 0 auto 1.5rem;
+    border-radius: 50%;
+    padding: 4px;
+    background: linear-gradient(135deg, var(--secondary), var(--accent));
+    box-shadow: 0 0 25px rgba(56, 189, 248, 0.4);
+    animation: pulseGlow 4s infinite alternate;
+}
+@keyframes pulseGlow {
+    0% { box-shadow: 0 0 15px rgba(56, 189, 248, 0.3); }
+    100% { box-shadow: 0 0 30px rgba(16, 185, 129, 0.6); }
+}
+.profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--background);
+    background-color: var(--card);
+}
+
 /* Tags & Buttons */
 .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
 .tag {
@@ -153,12 +178,12 @@ h1, h2, h3, h4 {
 
 /* Hero Section */
 .hero {
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    padding: 0 20px;
+    padding: 120px 20px 60px;
 }
 .hero-bg-grid {
     position: absolute;
@@ -175,8 +200,8 @@ h1, h2, h3, h4 {
     100% { background-position: 50px 50px; }
 }
 .hero-content { text-align: center; max-width: 800px; z-index: 1; }
-.hero h1 { font-size: 4rem; margin-bottom: 1rem; }
-.hero h2 { font-size: 2rem; color: var(--muted); margin-bottom: 1.5rem; height: 40px; }
+.hero h1 { font-size: 3.5rem; margin-bottom: 0.5rem; }
+.hero h2 { font-size: 1.8rem; color: var(--muted); margin-bottom: 1.5rem; height: 40px; }
 .tagline { font-size: 1.1rem; color: var(--muted); margin-bottom: 2rem; }
 .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 .social-links { display: flex; justify-content: center; gap: 1.5rem; margin-top: 2rem; }
@@ -268,6 +293,7 @@ h1, h2, h3, h4 {
 @media (max-width: 480px) {
     .hero h1 { font-size: 2rem; }
     .hero h2 { font-size: 1.2rem; }
+    .profile-img-container { width: 130px; height: 130px; }
     .nav-links a { font-size: 0.9rem; }
     .btn { width: 100%; text-align: center; }
     .projects-grid { grid-template-columns: 1fr; }
