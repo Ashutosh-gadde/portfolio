@@ -76,7 +76,7 @@ function initMap() {
     const careerMilestones = [
         { 
             name: "1. B.E. Civil Engineering", 
-            shortLabel: "Education",
+            shortLabel: "Graduation",
             iconClass: "fa-graduation-cap",
             coords: [18.388123539432986, 76.47634772677463], 
             title: "VDF School of Engineering, Latur", 
@@ -86,7 +86,7 @@ function initMap() {
         },
         { 
             name: "2. Post Graduation Diploma in Geoinformatics", 
-            shortLabel: "PGDM",
+            shortLabel: "PG Diploma",
             iconClass: "fa-user-graduate",
             coords: [17.674705558298463, 75.89389686680126], 
             title: "Geopixel Solutions, Solapur", 
@@ -96,17 +96,17 @@ function initMap() {
         },
         { 
             name: "3. GIS Engineer", 
-            shortLabel: "Drone & Field",
+            shortLabel: "GIS Engineer",
             iconClass: "fa-map-marked-alt",
             coords: [19.529032163204626, 77.03963109522947], 
-            title: "Flyview GIS Technology Pvt. Ltd.", 
+            title: "Flyview GIS Technology Pvt. Ltd.- Land Records Dept, Hingoli", 
             desc: "First onsite job executing drone mapping in Aundha Nagnath.",
             labelDir: "left", // Pushed left so it doesn't overlap Nanded
             labelOffset: [-15, 0]
         },
         { 
             name: "4. GIS Executive", 
-            shortLabel: "Genesys HQ (WFH)",
+            shortLabel: "GIS Executive",
             iconClass: "fa-laptop-house",
             coords: [19.127177256693525, 72.87552424612734], // Mumbai Coordinates!
             title: "Genesys International Corporation", 
@@ -116,10 +116,10 @@ function initMap() {
         },
         { 
             name: "5. GIS Expert", 
-            shortLabel: "Current HQ",
+            shortLabel: "GIS Expert",
             iconClass: "fa-briefcase",
             coords: [19.1548365840775, 77.31315696209785], 
-            title: "JMK Infosoft Solutions Ltd", 
+            title: "JMK Infosoft Solutions Ltd- Land Records Dept, Nanded", 
             desc: "Current onsite role managing district GIS cell operations in Nanded.<br><br><span style='background:#10B981; color:#020617; padding:4px 8px; border-radius:4px; font-weight:bold; display:inline-block; margin-top:5px;'>🚀 Open to New Opportunities</span>",
             labelDir: "right",
             labelOffset: [15, 0]
