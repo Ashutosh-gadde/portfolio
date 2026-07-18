@@ -17,82 +17,21 @@ document.addEventListener('DOMContentLoaded', () => {
         showCursor: true,
         cursorChar: '|'
     });
-
-    // 3. Load Professional Experience
-    loadExperience(); 
     
-    // 4. Initialize Interactive Map
+    // 3. Initialize Interactive Map
     initMap();
     
-    // 5. Fetch GitHub Repositories
+    // 4. Fetch GitHub Repositories
     fetchGitHubRepos('Ashutosh-gadde');
 });
-
-/**
- * Loads professional experience dynamically into the timeline.
- */
-function loadExperience() {
-    const experienceData = [
-        {
-            title: "GIS Expert",
-            company: "JMK Infosoft Solutions Ltd",
-            date: "Apr 2024 - Present",
-            tasks: [
-                "Managed district GIS cell operations under Land Records Department",
-                "Executed cadastral mapping and geo-referencing of land parcels",
-                "Delivered ROR maps aligned with government standards",
-                "Worked on Swamitva & E-Pik Pahani projects",
-                "Integrated GIS data into official portals"
-            ]
-        },
-        {
-            title: "GIS Executive",
-            company: "Genesys International Corporation",
-            date: "Apr 2022 - Apr 2024",
-            tasks: [
-                "Processed satellite imagery and street-view datasets",
-                "Created navigation datasets and POIs",
-                "Maintained PostGIS databases",
-                "Ensured high-quality GIS data delivery"
-            ]
-        },
-        {
-            title: "GIS Engineer",
-            company: "Flyview GIS Technology Pvt. Ltd.",
-            date: "Jun 2021 - Apr 2022",
-            tasks: [
-                "Processed drone survey data and created maps",
-                "Prepared geodatabases for land record departments",
-                "Conducted land survey validation and updates"
-            ]
-        }
-    ];
-
-    const container = document.getElementById('experience-container');
-    if (!container) return;
-
-    let htmlContent = '';
-    experienceData.forEach((job, index) => {
-        htmlContent += `
-            <div class="exp-item" data-aos="fade-left" data-aos-delay="${index * 150}">
-                <div class="exp-dot"></div>
-                <div class="exp-date">${job.date}</div>
-                <h3 class="exp-role">${job.title}</h3>
-                <div class="exp-company">${job.company}</div>
-                <ul class="exp-details">
-                    ${job.tasks.map(task => `<li>${task}</li>`).join('')}
-                </ul>
-            </div>
-        `;
-    });
-    
-    container.innerHTML = htmlContent;
-}
 
 /**
  * Initializes the Leaflet map and configures base layers.
  */
 function initMap() {
+    const mapContainer = document.getElementById('gis-map');
+    if (!mapContainer) return;
+
     // Set map center to Latur, Maharashtra
     const map = L.map('gis-map').setView([18.4088, 76.5604], 10);
 
@@ -131,6 +70,7 @@ function initMap() {
  */
 async function fetchGitHubRepos(username) {
     const reposContainer = document.getElementById('github-repos');
+    if (!reposContainer) return;
     
     try {
         const response = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=4`);
