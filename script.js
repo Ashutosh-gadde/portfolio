@@ -1,10 +1,5 @@
-/**
- * Ashutosh Gadde - GIS Portfolio Core JavaScript
- * Handles: Animations, Leaflet Map Init, and GitHub API interactions.
- */
-
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Initialize AOS (Animate On Scroll)
+    // 1. Initialize AOS (Scroll Animations)
     AOS.init({
         once: true,
         offset: 50,
@@ -12,13 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
         easing: 'ease-out-cubic',
     });
 
-    // 2. Initialize Typed.js for Hero Section
+    // 2. Initialize Typed.js for Hero
     new Typed('#typed-roles', {
-        strings: [
-            'GIS Analyst', 
-            'Python Automation Engineer', 
-            'Web GIS Developer'
-        ],
+        strings: ['GIS Analyst', 'Python Automation Engineer', 'Web GIS Developer'],
         typeSpeed: 50,
         backSpeed: 30,
         backDelay: 2000,
@@ -27,43 +18,101 @@ document.addEventListener('DOMContentLoaded', () => {
         cursorChar: '|'
     });
 
-    // 3. Initialize Leaflet Interactive Map
+    // 3. Load Professional Experience
+    loadExperience(); 
+    
+    // 4. Initialize Interactive Map
     initMap();
-
-    // 4. Fetch GitHub Repositories
+    
+    // 5. Fetch GitHub Repositories
     fetchGitHubRepos('Ashutosh-gadde');
 });
 
 /**
+ * Loads professional experience dynamically into the timeline.
+ */
+function loadExperience() {
+    const experienceData = [
+        {
+            title: "GIS Expert",
+            company: "JMK Infosoft Solutions Ltd",
+            date: "Apr 2024 - Present",
+            tasks: [
+                "Managed district GIS cell operations under Land Records Department",
+                "Executed cadastral mapping and geo-referencing of land parcels",
+                "Delivered ROR maps aligned with government standards",
+                "Worked on Swamitva & E-Pik Pahani projects",
+                "Integrated GIS data into official portals"
+            ]
+        },
+        {
+            title: "GIS Executive",
+            company: "Genesys International Corporation",
+            date: "Apr 2022 - Apr 2024",
+            tasks: [
+                "Processed satellite imagery and street-view datasets",
+                "Created navigation datasets and POIs",
+                "Maintained PostGIS databases",
+                "Ensured high-quality GIS data delivery"
+            ]
+        },
+        {
+            title: "GIS Engineer",
+            company: "Flyview GIS Technology Pvt. Ltd.",
+            date: "Jun 2021 - Apr 2022",
+            tasks: [
+                "Processed drone survey data and created maps",
+                "Prepared geodatabases for land record departments",
+                "Conducted land survey validation and updates"
+            ]
+        }
+    ];
+
+    const container = document.getElementById('experience-container');
+    if (!container) return;
+
+    let htmlContent = '';
+    experienceData.forEach((job, index) => {
+        htmlContent += `
+            <div class="exp-item" data-aos="fade-left" data-aos-delay="${index * 150}">
+                <div class="exp-dot"></div>
+                <div class="exp-date">${job.date}</div>
+                <h3 class="exp-role">${job.title}</h3>
+                <div class="exp-company">${job.company}</div>
+                <ul class="exp-details">
+                    ${job.tasks.map(task => `<li>${task}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = htmlContent;
+}
+
+/**
  * Initializes the Leaflet map and configures base layers.
- * Designed to look like a premium SaaS dashboard map.
  */
 function initMap() {
-    // Set initial coordinates (Centered roughly on Latur, India)
+    // Set map center to Latur, Maharashtra
     const map = L.map('gis-map').setView([18.4088, 76.5604], 10);
 
-    // Dark Matter tile layer for SaaS aesthetic
     const darkTileLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        attribution: '&copy; OSM contributors &copy; CARTO',
         subdomains: 'abcd',
         maxZoom: 20
     }).addTo(map);
 
-    // Satellite layer (Esri)
     const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
         attribution: 'Tiles &copy; Esri'
     });
 
-    // Base Maps configuration for the Layer Control
     const baseMaps = {
         "Dark UI (Default)": darkTileLayer,
         "Satellite Imagery": satelliteLayer
     };
 
-    // Add Layer Control to Top Right
     L.control.layers(baseMaps, null, { position: 'topright' }).addTo(map);
 
-    // Add a custom marker to indicate location
     const customIcon = L.divIcon({
         className: 'custom-div-icon',
         html: "<div style='background-color:#38BDF8; width:15px; height:15px; border-radius:50%; border:2px solid white; box-shadow: 0 0 10px #38BDF8;'></div>",
@@ -75,16 +124,10 @@ function initMap() {
         .addTo(map)
         .bindPopup('<b style="color:#0F172A;">Base Location</b><br>Latur, Maharashtra')
         .openPopup();
-        
-    /* Note to Developer: 
-       To add Draw Tools, GeoJSON Upload, and Measure, import the respective 
-       Leaflet plugins (e.g., leaflet-draw, leaflet-measure) in index.html and initialize them here.
-    */
 }
 
 /**
- * Fetches recent public repositories from GitHub API and populates the DOM.
- * @param {string} username - GitHub username
+ * Fetches recent public repositories from GitHub API.
  */
 async function fetchGitHubRepos(username) {
     const reposContainer = document.getElementById('github-repos');
@@ -101,7 +144,6 @@ async function fetchGitHubRepos(username) {
         }
 
         let htmlContent = '';
-        
         repos.forEach((repo, index) => {
             htmlContent += `
                 <div class="glass-card p-6" data-aos="fade-up" data-aos-delay="${index * 100}">
