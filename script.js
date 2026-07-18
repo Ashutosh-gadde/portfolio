@@ -52,7 +52,6 @@ function initMap() {
             font-weight: 600 !important;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
             padding: 4px 8px !important;
-            margin-left: 5px;
         }
         .custom-map-label.current-role {
             border-color: rgba(16, 185, 129, 0.9) !important;
@@ -63,16 +62,17 @@ function initMap() {
     `;
     document.head.appendChild(labelStyle);
 
-    const map = L.map('gis-map').setView([18.7, 76.5], 8);
+    // Zoomed out slightly and centered to fit Mumbai to Nanded perfectly
+    const map = L.map('gis-map').setView([18.9, 74.8], 7);
 
-    // CHANGED: Premium Light SaaS Base Layer (CartoDB Positron)
+    // Premium Light SaaS Base Layer (CartoDB Positron)
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
         attribution: '&copy; OSM contributors',
         subdomains: 'abcd',
         maxZoom: 20
     }).addTo(map);
 
-    // Career Journey Data with Icons and Short Labels
+    // Career Journey Data
     const careerMilestones = [
         { 
             name: "1. B.E. Civil Engineering", 
@@ -80,7 +80,9 @@ function initMap() {
             iconClass: "fa-graduation-cap",
             coords: [18.4088, 76.5604], 
             title: "VDF School of Engineering, Latur", 
-            desc: "Completed foundational civil engineering degree in my hometown." 
+            desc: "Completed foundational civil engineering degree in my hometown.",
+            labelDir: "right",
+            labelOffset: [15, 0]
         },
         { 
             name: "2. PGDM Geoinformatics", 
@@ -88,7 +90,9 @@ function initMap() {
             iconClass: "fa-user-graduate",
             coords: [17.6599, 75.9064], 
             title: "Geopixel Solutions, Solapur", 
-            desc: "Specialized post-graduate training in GIS and Geoinformatics." 
+            desc: "Specialized post-graduate training in GIS and Geoinformatics.",
+            labelDir: "right",
+            labelOffset: [15, 0]
         },
         { 
             name: "3. GIS Engineer", 
@@ -96,15 +100,19 @@ function initMap() {
             iconClass: "fa-map-marked-alt",
             coords: [19.5350, 77.0420], 
             title: "Flyview GIS Technology Pvt. Ltd.", 
-            desc: "First onsite job executing drone mapping in Aundha Nagnath." 
+            desc: "First onsite job executing drone mapping in Aundha Nagnath.",
+            labelDir: "left", // Pushed left so it doesn't overlap Nanded
+            labelOffset: [-15, 0]
         },
         { 
             name: "4. GIS Executive", 
-            shortLabel: "WFH Base",
+            shortLabel: "Genesys HQ (WFH)",
             iconClass: "fa-laptop-house",
-            coords: [18.4300, 76.5800], 
+            coords: [19.0760, 72.8777], // Mumbai Coordinates!
             title: "Genesys International Corporation", 
-            desc: "Successfully executed WFH operations from my hometown, Latur." 
+            desc: "Successfully executed WFH operations collaborating with the Mumbai headquarters. Managed PostGIS databases and imagery.",
+            labelDir: "right",
+            labelOffset: [15, 0]
         },
         { 
             name: "5. GIS Expert", 
@@ -112,12 +120,13 @@ function initMap() {
             iconClass: "fa-briefcase",
             coords: [19.1528, 77.3039], 
             title: "JMK Infosoft Solutions Ltd", 
-            desc: "Current onsite role managing district GIS cell operations in Nanded.<br><br><span style='background:#10B981; color:#020617; padding:4px 8px; border-radius:4px; font-weight:bold; display:inline-block; margin-top:5px;'>🚀 Open to New Opportunities</span>" 
+            desc: "Current onsite role managing district GIS cell operations in Nanded.<br><br><span style='background:#10B981; color:#020617; padding:4px 8px; border-radius:4px; font-weight:bold; display:inline-block; margin-top:5px;'>🚀 Open to New Opportunities</span>",
+            labelDir: "right",
+            labelOffset: [15, 0]
         }
     ];
 
-    // CHANGED: Fetch real road networks using OSRM API instead of straight lines
-    // OSRM requires coordinates in [Longitude, Latitude] format
+    // Fetch real road networks using OSRM API
     const osrmCoords = careerMilestones.map(m => `${m.coords[1]},${m.coords[0]}`).join(';');
     const osrmUrl = `https://router.project-osrm.org/route/v1/driving/${osrmCoords}?geometries=geojson&overview=full`;
 
@@ -128,7 +137,7 @@ function initMap() {
                 const routeGeoJSON = data.routes[0].geometry;
                 L.geoJSON(routeGeoJSON, {
                     style: {
-                        color: '#2563eb', // Bold blue for visibility on light map
+                        color: '#2563eb',
                         weight: 4,
                         opacity: 0.8
                     }
@@ -144,7 +153,6 @@ function initMap() {
     // Plot markers with Icons and Tooltips
     careerMilestones.forEach((m, index) => {
         const isCurrent = index === careerMilestones.length - 1;
-        // Adjusted colors slightly to pop beautifully against the light background
         const bgColor = isCurrent ? '#10B981' : '#0F172A'; 
         const iconColor = isCurrent ? '#ffffff' : '#38BDF8';
         const labelTheme = isCurrent ? 'custom-map-label current-role' : 'custom-map-label';
@@ -169,8 +177,8 @@ function initMap() {
             `)
             .bindTooltip(m.shortLabel, {
                 permanent: true,
-                direction: 'right',
-                offset: [15, 0],
+                direction: m.labelDir, 
+                offset: m.labelOffset, 
                 className: labelTheme
             });
     });
@@ -203,7 +211,6 @@ function initMap() {
                     
                     const distanceKm = (currentRoleLatLng.distanceTo(userLatLng) / 1000).toLocaleString(undefined, { maximumFractionDigits: 1 });
 
-                    // Connection line remains dashed ("as the crow flies") since we cannot guarantee road routing across oceans
                     L.polyline([currentRoleLatLng, userLatLng], { color: '#10B981', weight: 3, dashArray: '10, 10' }).addTo(map);
 
                     const userIcon = L.divIcon({
