@@ -83,6 +83,83 @@ h1, h2, h3, h4 {
 /* ==========================================================================
    Glassmorphism UI Components
    ========================================================================== */
+/* ==========================================================================
+   Experience Timeline
+   ========================================================================== */
+.experience-wrapper {
+    padding: 2.5rem;
+}
+
+.experience-timeline {
+    position: relative;
+    padding-left: 2rem;
+    border-left: 2px solid var(--glass-border);
+    margin-left: 1rem;
+}
+
+.exp-item {
+    position: relative;
+    margin-bottom: 3rem;
+}
+
+.exp-item:last-child {
+    margin-bottom: 0;
+}
+
+.exp-dot {
+    position: absolute;
+    left: -2.6rem;
+    top: 0;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--background);
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+}
+
+.exp-date {
+    color: var(--secondary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.exp-role {
+    font-size: 1.3rem;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+}
+
+.exp-company {
+    color: var(--muted);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.exp-details {
+    list-style-type: none;
+}
+
+.exp-details li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.6rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+
+.exp-details li::before {
+    content: "▹";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 1.2rem;
+    line-height: 1;
+}
 .glass-card {
     background: var(--glass-bg);
     backdrop-filter: blur(12px);
