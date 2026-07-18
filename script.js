@@ -43,19 +43,19 @@ function initMap() {
     const labelStyle = document.createElement('style');
     labelStyle.innerHTML = `
         .custom-map-label {
-            background-color: rgba(15, 23, 42, 0.85) !important;
-            border: 1px solid rgba(56, 189, 248, 0.4) !important;
+            background-color: rgba(15, 23, 42, 0.9) !important;
+            border: 1px solid rgba(56, 189, 248, 0.5) !important;
             color: #F8FAFC !important;
             border-radius: 6px !important;
             font-family: 'Inter', sans-serif !important;
             font-size: 11px !important;
             font-weight: 600 !important;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5) !important;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
             padding: 4px 8px !important;
             margin-left: 5px;
         }
         .custom-map-label.current-role {
-            border-color: rgba(16, 185, 129, 0.8) !important;
+            border-color: rgba(16, 185, 129, 0.9) !important;
             color: #10B981 !important;
         }
         .leaflet-tooltip-left.custom-map-label::before,
@@ -65,7 +65,8 @@ function initMap() {
 
     const map = L.map('gis-map').setView([18.7, 76.5], 8);
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    // CHANGED: Premium Light SaaS Base Layer (CartoDB Positron)
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
         attribution: '&copy; OSM contributors',
         subdomains: 'abcd',
         maxZoom: 20
@@ -115,32 +116,53 @@ function initMap() {
         }
     ];
 
-    // Draw the "Flight Path"
-    const pathCoords = careerMilestones.map(m => m.coords);
-    L.polyline(pathCoords, { color: '#38BDF8', weight: 2, dashArray: '6, 8', opacity: 0.6 }).addTo(map);
+    // CHANGED: Fetch real road networks using OSRM API instead of straight lines
+    // OSRM requires coordinates in [Longitude, Latitude] format
+    const osrmCoords = careerMilestones.map(m => `${m.coords[1]},${m.coords[0]}`).join(';');
+    const osrmUrl = `https://router.project-osrm.org/route/v1/driving/${osrmCoords}?geometries=geojson&overview=full`;
+
+    fetch(osrmUrl)
+        .then(response => response.json())
+        .then(data => {
+            if (data.routes && data.routes.length > 0) {
+                const routeGeoJSON = data.routes[0].geometry;
+                L.geoJSON(routeGeoJSON, {
+                    style: {
+                        color: '#2563eb', // Bold blue for visibility on light map
+                        weight: 4,
+                        opacity: 0.8
+                    }
+                }).addTo(map);
+            }
+        })
+        .catch(err => {
+            console.error("OSRM Routing failed, falling back to straight lines:", err);
+            const pathCoords = careerMilestones.map(m => m.coords);
+            L.polyline(pathCoords, { color: '#2563eb', weight: 3, dashArray: '5, 10', opacity: 0.7 }).addTo(map);
+        });
 
     // Plot markers with Icons and Tooltips
     careerMilestones.forEach((m, index) => {
         const isCurrent = index === careerMilestones.length - 1;
-        const color = isCurrent ? '#10B981' : '#38BDF8'; 
+        // Adjusted colors slightly to pop beautifully against the light background
+        const bgColor = isCurrent ? '#10B981' : '#0F172A'; 
+        const iconColor = isCurrent ? '#ffffff' : '#38BDF8';
         const labelTheme = isCurrent ? 'custom-map-label current-role' : 'custom-map-label';
         
-        // Upgraded Marker with FontAwesome Icon inside
         const icon = L.divIcon({
             className: 'custom-div-icon',
-            html: `<div style='background-color:${color}; width:30px; height:30px; border-radius:50%; border:2px solid white; box-shadow: 0 0 15px ${color}; display:flex; justify-content:center; align-items:center; color:#020617; font-size:14px;'>
+            html: `<div style='background-color:${bgColor}; width:32px; height:32px; border-radius:50%; border:2px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.2); display:flex; justify-content:center; align-items:center; color:${iconColor}; font-size:14px;'>
                       <i class="fas ${m.iconClass}"></i>
                    </div>`,
-            iconSize: [30, 30],
-            iconAnchor: [15, 15]
+            iconSize: [32, 32],
+            iconAnchor: [16, 16]
         });
 
-        // Add Marker, Popup, and Permanent Tooltip
         L.marker(m.coords, { icon: icon }).addTo(map)
             .bindPopup(`
                 <div style="text-align: center; max-width: 220px;">
                     <b style="color:#0F172A; font-size: 14px;">${m.name}</b><br>
-                    <span style="color:#38BDF8; font-weight: bold; font-size: 12px;">${m.title}</span><br>
+                    <span style="color:#2563eb; font-weight: bold; font-size: 12px;">${m.title}</span><br>
                     <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 8px 0;">
                     <span style="color:#64748B; font-size: 12px; line-height: 1.4; display:block;">${m.desc}</span>
                 </div>
@@ -165,6 +187,7 @@ function initMap() {
             border-radius: 8px; font-weight: 600; cursor: pointer; 
             box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); 
             font-family: 'Inter', sans-serif; transition: all 0.3s ease;
+            margin-top: 15px; margin-right: 15px;
         `;
 
         btn.onmouseover = () => btn.style.transform = 'translateY(-2px)';
@@ -180,12 +203,13 @@ function initMap() {
                     
                     const distanceKm = (currentRoleLatLng.distanceTo(userLatLng) / 1000).toLocaleString(undefined, { maximumFractionDigits: 1 });
 
+                    // Connection line remains dashed ("as the crow flies") since we cannot guarantee road routing across oceans
                     L.polyline([currentRoleLatLng, userLatLng], { color: '#10B981', weight: 3, dashArray: '10, 10' }).addTo(map);
 
                     const userIcon = L.divIcon({
                         className: 'custom-div-icon',
-                        html: `<div style='background-color:#F59E0B; width:30px; height:30px; border-radius:50%; border:2px solid white; box-shadow: 0 0 15px #F59E0B; display:flex; justify-content:center; align-items:center; color:#020617; font-size:14px;'><i class="fas fa-street-view"></i></div>`,
-                        iconSize: [30, 30], iconAnchor: [15, 15]
+                        html: `<div style='background-color:#F59E0B; width:32px; height:32px; border-radius:50%; border:2px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.3); display:flex; justify-content:center; align-items:center; color:#ffffff; font-size:14px;'><i class="fas fa-street-view"></i></div>`,
+                        iconSize: [32, 32], iconAnchor: [16, 16]
                     });
 
                     L.marker(userLatLng, {icon: userIcon}).addTo(map)
