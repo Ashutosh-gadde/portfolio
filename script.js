@@ -126,8 +126,7 @@ function initMap() {
         }
     ];
 
-    // Fetch real road networks using OSRM API
-    // FIX: Added .toFixed(5) to prevent OSRM from rejecting long decimal coordinates
+    // Fetch real road networks using OSRM API for career trajectory
     const osrmCoords = careerMilestones.map(m => `${Number(m.coords[1]).toFixed(5)},${Number(m.coords[0]).toFixed(5)}`).join(';');
     const osrmUrl = `https://router.project-osrm.org/route/v1/driving/${osrmCoords}?geometries=geojson&overview=full`;
 
@@ -203,34 +202,45 @@ function initMap() {
         btn.onmouseout = () => btn.style.transform = 'translateY(0)';
 
         btn.onclick = function() {
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Locating...';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Routing...';
             navigator.geolocation.getCurrentPosition(
                 (pos) => {
                     btn.innerHTML = '📍 Recruiter? Find our distance';
                     const userLatLng = L.latLng(pos.coords.latitude, pos.coords.longitude);
                     const currentRoleLatLng = L.latLng(19.154836, 77.313156); 
                     
-                    const distanceKm = (currentRoleLatLng.distanceTo(userLatLng) / 1000).toLocaleString(undefined, { maximumFractionDigits: 1 });
+                    // NEW: OSRM Routing for Recruiter to Nanded
+                    const recruiterOsrmUrl = `https://router.project-osrm.org/route/v1/driving/${userLatLng.lng.toFixed(5)},${userLatLng.lat.toFixed(5)};${currentRoleLatLng.lng.toFixed(5)},${currentRoleLatLng.lat.toFixed(5)}?geometries=geojson&overview=full`;
 
-                    L.polyline([currentRoleLatLng, userLatLng], { color: '#10B981', weight: 3, dashArray: '10, 10' }).addTo(map);
+                    fetch(recruiterOsrmUrl)
+                        .then(response => response.json())
+                        .then(data => {
+                            let distanceText = "";
+                            
+                            if (data.routes && data.routes.length > 0) {
+                                // We found a road! Draw the driving route.
+                                const routeGeoJSON = data.routes[0].geometry;
+                                L.geoJSON(routeGeoJSON, {
+                                    style: { color: '#10B981', weight: 4, opacity: 0.8, dashArray: '10, 10' }
+                                }).addTo(map);
 
-                    const userIcon = L.divIcon({
-                        className: 'custom-div-icon',
-                        html: `<div style='background-color:#F59E0B; width:32px; height:32px; border-radius:50%; border:2px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.3); display:flex; justify-content:center; align-items:center; color:#ffffff; font-size:14px;'><i class="fas fa-street-view"></i></div>`,
-                        iconSize: [32, 32], iconAnchor: [16, 16]
-                    });
-
-                    L.marker(userLatLng, {icon: userIcon}).addTo(map)
-                        .bindPopup(`
-                            <div style="text-align: center; max-width: 220px;">
-                                <b style="color:#0F172A; font-size: 15px;">You are here!</b><br>
-                                <span style="color:#64748B;">We are exactly <b>${distanceKm} km</b> apart.</span><br>
-                                <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 8px 0;">
-                                <span style="color:#10B981; font-weight:bold;">Proven Remote Track Record. Ready to Collaborate!</span>
-                            </div>
-                        `).openPopup();
-
-                    map.flyToBounds(L.latLngBounds([currentRoleLatLng, userLatLng]), { padding: [50, 50], duration: 2.5 });
+                                const drivingDistanceKm = (data.routes[0].distance / 1000).toLocaleString(undefined, { maximumFractionDigits: 1 });
+                                distanceText = `Driving distance is exactly <b>${drivingDistanceKm} km</b>.`;
+                            } else {
+                                throw new Error("No road route found (might be overseas).");
+                            }
+                            
+                            showRecruiterPopup(userLatLng, currentRoleLatLng, distanceText);
+                        })
+                        .catch(err => {
+                            console.warn("Could not find a driving route. Falling back to straight flight path.", err);
+                            // Fallback to straight line (flight path)
+                            L.polyline([currentRoleLatLng, userLatLng], { color: '#10B981', weight: 3, dashArray: '10, 10' }).addTo(map);
+                            const flightDistanceKm = (currentRoleLatLng.distanceTo(userLatLng) / 1000).toLocaleString(undefined, { maximumFractionDigits: 1 });
+                            const distanceText = `Flight distance is exactly <b>${flightDistanceKm} km</b>.`;
+                            
+                            showRecruiterPopup(userLatLng, currentRoleLatLng, distanceText);
+                        });
                 },
                 (err) => {
                     btn.innerHTML = 'Location Access Denied';
@@ -244,6 +254,28 @@ function initMap() {
         };
         return btn;
     };
+    
+    // Helper function to show popup after route is decided
+    function showRecruiterPopup(userLatLng, currentRoleLatLng, distanceText) {
+        const userIcon = L.divIcon({
+            className: 'custom-div-icon',
+            html: `<div style='background-color:#F59E0B; width:32px; height:32px; border-radius:50%; border:2px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.3); display:flex; justify-content:center; align-items:center; color:#ffffff; font-size:14px;'><i class="fas fa-street-view"></i></div>`,
+            iconSize: [32, 32], iconAnchor: [16, 16]
+        });
+
+        L.marker(userLatLng, {icon: userIcon}).addTo(map)
+            .bindPopup(`
+                <div style="text-align: center; max-width: 220px;">
+                    <b style="color:#0F172A; font-size: 15px;">You are here!</b><br>
+                    <span style="color:#64748B;">${distanceText}</span><br>
+                    <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 8px 0;">
+                    <span style="color:#10B981; font-weight:bold;">Ready to Collaborate!</span>
+                </div>
+            `).openPopup();
+
+        map.flyToBounds(L.latLngBounds([currentRoleLatLng, userLatLng]), { padding: [50, 50], duration: 2.5 });
+    }
+
     remoteControl.addTo(map);
 }
 
