@@ -26,43 +26,85 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * Initializes the Leaflet map and configures base layers.
+ /**
+ * Initializes the Leaflet map with Advanced Web GIS Capabilities
  */
 function initMap() {
-    const mapContainer = document.getElementById('gis-map');
-    if (!mapContainer) return;
+    // 1. Initialize Map
+    const map = L.map('gis-map').setView([18.4088, 76.5604], 12);
 
-    // Set map center to Latur, Maharashtra
-    const map = L.map('gis-map').setView([18.4088, 76.5604], 10);
-
+    // 2. Base Layers
     const darkTileLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; OSM contributors &copy; CARTO',
+        attribution: '© OSM contributors',
         subdomains: 'abcd',
         maxZoom: 20
     }).addTo(map);
 
     const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-        attribution: 'Tiles &copy; Esri'
+        attribution: 'Tiles © Esri'
     });
 
+    // 3. Add Scale Bar
+    L.control.scale({ position: 'bottomleft', metric: true, imperial: false }).addTo(map);
+
+    // 4. Mock GeoJSON Data (Simulating a Land Record/Survey Boundary)
+    const mockProjectBoundary = {
+        "type": "FeatureCollection",
+        "features": [{
+            "type": "Feature",
+            "properties": { "name": "Latur Cadastral Survey Zone", "status": "Digitization Complete" },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[[76.51, 18.44], [76.60, 18.44], [76.60, 18.37], [76.51, 18.37], [76.51, 18.44]]]
+            }
+        }]
+    };
+
+    // Render GeoJSON with styling and popups
+    const boundaryLayer = L.geoJSON(mockProjectBoundary, {
+        style: { color: '#10B981', weight: 2, fillOpacity: 0.1, dashArray: '5, 5' },
+        onEachFeature: function (feature, layer) {
+            layer.bindPopup(`
+                ${feature.properties.name}
+                Status: ${feature.properties.status}
+            `);
+        }
+    }).addTo(map);
+
+    // 5. Initialize Drawing Tools (Leaflet.draw)
+    const drawnItems = new L.FeatureGroup();
+    map.addLayer(drawnItems);
+    
+    const drawControl = new L.Control.Draw({
+        edit: { featureGroup: drawnItems },
+        draw: {
+            polygon: { shapeOptions: { color: '#38BDF8' } },
+            polyline: { shapeOptions: { color: '#38BDF8' } },
+            rectangle: true,
+            circle: false,
+            circlemarker: false,
+            marker: true
+        }
+    });
+    map.addControl(drawControl);
+
+    // Handle drawn shapes
+    map.on(L.Draw.Event.CREATED, function (event) {
+        const layer = event.layer;
+        drawnItems.addLayer(layer);
+    });
+
+    // 6. Layer Control Panel
     const baseMaps = {
         "Dark UI (Default)": darkTileLayer,
         "Satellite Imagery": satelliteLayer
     };
+    const overlayMaps = {
+        "Survey Boundaries": boundaryLayer,
+        "User Drawn Shapes": drawnItems
+    };
 
-    L.control.layers(baseMaps, null, { position: 'topright' }).addTo(map);
-
-    const customIcon = L.divIcon({
-        className: 'custom-div-icon',
-        html: "<div style='background-color:#38BDF8; width:15px; height:15px; border-radius:50%; border:2px solid white; box-shadow: 0 0 10px #38BDF8;'></div>",
-        iconSize: [15, 15],
-        iconAnchor: [7, 7]
-    });
-
-    L.marker([18.4088, 76.5604], { icon: customIcon })
-        .addTo(map)
-        .bindPopup('<b style="color:#0F172A;">Base Location</b><br>Latur, Maharashtra')
-        .openPopup();
+    L.control.layers(baseMaps, overlayMaps, { position: 'topright' }).addTo(map);
 }
 
 /**
