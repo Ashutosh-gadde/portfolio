@@ -78,17 +78,17 @@ function initMap() {
             name: "1. B.E. Civil Engineering", 
             shortLabel: "Education",
             iconClass: "fa-graduation-cap",
-            coords: [18.4088, 76.5604], 
+            coords: [18.388123539432986, 76.47634772677463], 
             title: "VDF School of Engineering, Latur", 
             desc: "Completed foundational civil engineering degree in my hometown.",
             labelDir: "right",
             labelOffset: [15, 0]
         },
         { 
-            name: "2. PGDM Geoinformatics", 
+            name: "2. Post Graduation Diploma in Geoinformatics", 
             shortLabel: "PGDM",
             iconClass: "fa-user-graduate",
-            coords: [17.6599, 75.9064], 
+            coords: [17.674705558298463, 75.89389686680126], 
             title: "Geopixel Solutions, Solapur", 
             desc: "Specialized post-graduate training in GIS and Geoinformatics.",
             labelDir: "right",
@@ -98,7 +98,7 @@ function initMap() {
             name: "3. GIS Engineer", 
             shortLabel: "Drone & Field",
             iconClass: "fa-map-marked-alt",
-            coords: [19.5350, 77.0420], 
+            coords: [19.529032163204626, 77.03963109522947], 
             title: "Flyview GIS Technology Pvt. Ltd.", 
             desc: "First onsite job executing drone mapping in Aundha Nagnath.",
             labelDir: "left", // Pushed left so it doesn't overlap Nanded
@@ -108,7 +108,7 @@ function initMap() {
             name: "4. GIS Executive", 
             shortLabel: "Genesys HQ (WFH)",
             iconClass: "fa-laptop-house",
-            coords: [19.0760, 72.8777], // Mumbai Coordinates!
+            coords: [19.127177256693525, 72.87552424612734], // Mumbai Coordinates!
             title: "Genesys International Corporation", 
             desc: "Successfully executed WFH operations collaborating with the Mumbai headquarters. Managed PostGIS databases and imagery.",
             labelDir: "right",
@@ -118,7 +118,7 @@ function initMap() {
             name: "5. GIS Expert", 
             shortLabel: "Current HQ",
             iconClass: "fa-briefcase",
-            coords: [19.1528, 77.3039], 
+            coords: [19.1548365840775, 77.31315696209785], 
             title: "JMK Infosoft Solutions Ltd", 
             desc: "Current onsite role managing district GIS cell operations in Nanded.<br><br><span style='background:#10B981; color:#020617; padding:4px 8px; border-radius:4px; font-weight:bold; display:inline-block; margin-top:5px;'>🚀 Open to New Opportunities</span>",
             labelDir: "right",
