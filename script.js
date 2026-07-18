@@ -26,9 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- /**
-/**
- /**
  * Initializes the Leaflet map: Detailed Spatial Resume & Remote Connection Tool
  */
 function initMap() {
@@ -183,6 +180,8 @@ function initMap() {
     };
     remoteControl.addTo(map);
 }
+
+/**
  * Fetches recent public repositories from GitHub API.
  */
 async function fetchGitHubRepos(username) {
